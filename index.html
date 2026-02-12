@@ -5,153 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pay Calculator</title>
     <style>
+        /* CHIME THEME COLORS */
+        :root {
+            --chime-green: #00Cba9; /* The signature bright mint green */
+            --chime-dark-green: #00a88d; /* For hover states */
+            --chime-bg: #F4F7F6; /* Light grey background */
+            --chime-text-dark: #19233C; /* Deep slate for headings */
+            --chime-text-grey: #697386; /* Medium grey for secondary text */
+            --chime-border: #E6EBF1; /* Subtle borders */
+            --chime-red: #E74C3C; /* For deductions */
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
+            background-color: var(--chime-bg);
             margin: 0;
             padding: 20px;
-            color: #333;
+            color: var(--chime-text-dark);
         }
         .container {
             max-width: 480px;
             margin: 0 auto;
             background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px 25px;
+            border-radius: 20px; /* Rounder corners like Chime UI */
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
         }
         h1 {
             text-align: center;
-            font-size: 1.4rem;
-            color: #1a202c;
-            margin-bottom: 5px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--chime-text-dark);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
         p.subtitle {
             text-align: center;
-            color: #718096;
-            font-size: 0.9rem;
-            margin-bottom: 25px;
+            color: var(--chime-text-grey);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
         }
         
         /* CARD STYLE */
         .card {
             background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
+            border: 2px solid var(--chime-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 18px;
+            transition: border-color 0.2s;
+        }
+        .card:hover {
+            border-color: #d0dbe5;
         }
         .card-title {
             font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            color: #a0aec0;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
+            color: var(--chime-green); /* Using green for accents */
+            margin-bottom: 15px;
+            letter-spacing: 1px;
         }
 
         /* INPUTS */
         .input-row {
             display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 15px;
+            margin-bottom: 15px;
         }
         .input-group {
             flex: 1;
         }
         label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            margin-bottom: 6px;
-            color: #4a5568;
+            margin-bottom: 8px;
+            color: var(--chime-text-dark);
         }
         input, select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e0;
-            border-radius: 8px;
+            padding: 14px;
+            border: 2px solid var(--chime-border);
+            border-radius: 12px;
             font-size: 16px;
             box-sizing: border-box;
-            background: #f7fafc;
+            background: #fff;
+            color: var(--chime-text-dark);
+            font-weight: 500;
             transition: all 0.2s;
+            appearance: none; /* cleaner look for selects */
         }
         input:focus, select:focus {
-            background: #fff;
-            border-color: #3182ce;
+            border-color: var(--chime-green);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+            box-shadow: 0 0 0 3px rgba(0, 203, 169, 0.15);
+        }
+        /* Fix for select dropdown arrow in some browsers */
+        select {
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2300Cba9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 12px auto;
+            padding-right: 30px;
         }
 
         /* BUTTON */
         .btn-calc {
             width: 100%;
-            padding: 16px;
-            background-color: #3182ce;
+            padding: 18px;
+            background-color: var(--chime-green);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
+            border-radius: 14px;
+            font-size: 1.15rem;
+            font-weight: 800;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
             margin-top: 10px;
-            box-shadow: 0 4px 6px rgba(49, 130, 206, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 203, 169, 0.3);
         }
-        .btn-calc:hover { background-color: #2b6cb0; transform: translateY(-1px); }
+        .btn-calc:hover { background-color: var(--chime-dark-green); transform: translateY(-2px); }
         .btn-calc:active { transform: translateY(0); }
 
         /* RESULTS */
         #result-area {
             display: none;
-            margin-top: 25px;
-            border-top: 2px dashed #e2e8f0;
+            margin-top: 30px;
             padding-top: 20px;
         }
         .net-pay {
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            background: var(--chime-green);
             color: white;
-            padding: 25px;
-            border-radius: 12px;
+            padding: 30px 25px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(56, 161, 105, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 203, 169, 0.3);
         }
-        .net-pay h2 { margin: 5px 0 0 0; font-size: 2.5rem; }
-        .net-pay span { font-size: 0.9rem; opacity: 0.9; font-weight: 500; letter-spacing: 0.5px; }
+        .net-pay h2 { margin: 5px 0 0 0; font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; }
+        .net-pay span { font-size: 0.95rem; opacity: 0.95; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;}
 
         .details {
-            margin-top: 20px;
-            background: #f7fafc;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+            margin-top: 25px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid var(--chime-border);
         }
         .row {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
-            font-size: 0.95rem;
-            color: #4a5568;
+            padding: 8px 0;
+            font-size: 1rem;
+            color: var(--chime-text-dark);
+            font-weight: 500;
         }
         .row.total { 
             font-weight: 800; 
-            border-top: 2px solid #cbd5e0; 
-            margin-top: 10px; 
-            padding-top: 10px; 
-            color: #2d3748;
+            border-top: 2px solid var(--chime-border); 
+            margin-top: 12px; 
+            padding-top: 15px; 
+            font-size: 1.1rem;
         }
-        .minus { color: #e53e3e; }
-        .plus { color: #38a169; }
+        .minus { color: var(--chime-red); }
+        .plus { color: var(--chime-green); }
         
         .toggle-details {
             text-align: center;
-            margin-top: 15px;
-            color: #718096;
+            margin-top: 20px;
+            color: var(--chime-green);
             cursor: pointer;
-            font-size: 0.85rem;
-            text-decoration: underline;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
-        .toggle-details:hover { color: #3182ce; }
+        .toggle-details:hover { color: var(--chime-dark-green); text-decoration: underline;}
+        
+        .deduction-header {
+             margin-top: 20px; margin-bottom: 8px; font-weight: 700; font-size: 0.8rem; color: var(--chime-text-grey); text-transform: uppercase; letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -161,11 +192,11 @@
     <p class="subtitle">by WIL of AAI</p>
 
     <div class="card">
-        <div class="card-title">1. Settings</div>
+        <div class="card-title">Settings</div>
         <div class="input-row">
             <div class="input-group">
                 <label>Daily Rate (₱)</label>
-                <input type="number" id="dailyRate" value="0" step="0.01">
+                <input type="number" id="dailyRate" placeholder="ENTER HERE" step="0.01">
             </div>
             <div class="input-group">
                 <label>Pay Period</label>
@@ -188,7 +219,7 @@
     </div>
 
     <div class="card">
-        <div class="card-title">2. Hours Worked</div>
+        <div class="card-title">Hours Worked</div>
         <div class="input-row">
             <div class="input-group">
                 <label>Days Worked</label>
@@ -201,14 +232,14 @@
         </div>
         <div class="input-row">
             <div class="input-group">
-                <label>SSS + PAGIBIG Loan Deductions</label>
-                <input type="number" id="loanDed" value="0" placeholder="0">
+                <label>SSS + PAGIBIG LOAN</label>
+                <input type="number" id="loanDed" placeholder="ENTER HERE">
             </div>
         </div>
     </div>
 
     <div class="card">
-        <div class="card-title">3. Holidays & Rest Day (Optional)</div>
+        <div class="card-title">Holidays & Rest Day (Optional)</div>
         <div class="input-row">
             <div class="input-group">
                 <label>Special Hol. (Hrs)</label>
@@ -227,15 +258,15 @@
         </div>
     </div>
 
-    <button class="btn-calc" onclick="calculate()">COMPUTE PAY</button>
+    <button class="btn-calc" onclick="calculate()">Compute Pay</button>
 
     <div id="result-area">
         <div class="net-pay">
-            <span>ESTIMATED TAKE HOME PAY</span>
+            <span>ESTIMATED TAKE HOME</span>
             <h2 id="finalPay">₱ 0.00</h2>
         </div>
         
-        <div class="toggle-details" onclick="toggleDetails()">Show/Hide Breakdown</div>
+        <div class="toggle-details" onclick="toggleDetails()">View breakdown</div>
         
         <div id="breakdown" class="details" style="display:none;">
             <div class="row plus"><span>Basic Pay</span><span id="valBasic">0.00</span></div>
@@ -245,7 +276,7 @@
             
             <div class="row total"><span>GROSS PAY</span><span id="valGross">0.00</span></div>
             
-            <div style="margin-top: 15px; margin-bottom: 5px; font-weight: bold; font-size: 0.8rem; color: #a0aec0; text-transform: uppercase;">Deductions</div>
+            <div class="deduction-header">Deductions</div>
             <div class="row minus"><span>Govt Contributions</span><span id="valGovt">0.00</span></div>
             <div class="row minus"><span>Loans / Others</span><span id="valLoan">0.00</span></div>
             <div class="row minus"><span>Tax (Estimate)</span><span id="valTax">0.00</span></div>
@@ -257,10 +288,13 @@
 <script>
     function toggleDetails() {
         var x = document.getElementById("breakdown");
+        var btn = document.querySelector('.toggle-details');
         if (x.style.display === "none") {
             x.style.display = "block";
+            btn.innerText = "Hide breakdown";
         } else {
             x.style.display = "none";
+            btn.innerText = "View breakdown";
         }
     }
 
@@ -276,13 +310,7 @@
         // 1. Get Dynamic Rate
         let dailyRate = parseFloat(document.getElementById('dailyRate').value) || 0;
         let rateHourly = dailyRate / 8;
-        // Account Premium is usually proportional or fixed. 
-        // For this generic tool, we'll assume it scales with the rate (approx 1.36% of daily rate based on user data)
-        // OR we can just keep it fixed or add an input. 
-        // To keep it simple but accurate for the user, we'll use the ratio from user's data: 11.93 / 109.195 = ~10.9%?
-        // Wait, 11.93 is premium hourly. 109.195 is basic hourly. 
-        // 11.93 is roughly 11% of hourly rate. 
-        // Let's use the explicit ratio to make it universal:
+        // Calculate premium ratio based on original user data (11.93 / 109.195 = approx 10.925%)
         let premRatio = 11.93 / 109.195; 
         let ratePrem = rateHourly * premRatio; 
 
@@ -303,24 +331,17 @@
         // ND Calculation (22:00 to 06:00)
         let ndHoursPerDay = 0;
         let duration = tOut - tIn;
-        // Simple iteration to find ND hours
         for(let t = tIn; t < tOut; t += 1) { 
              let h = t % 24;
              if(h >= 22 || h < 6) ndHoursPerDay++;
         }
         
-        // Deduct lunch?
-        let dailyHours = Math.max(0, duration - 1); 
-        // Adjust ND if lunch falls in ND? (Simplified: No adjustment for generic tool)
+        let dailyHours = Math.max(0, duration - 1); // 1 hr lunch deduction
 
         // 4. Earnings
         let basic = days * dailyHours * rateHourly;
         let prem = days * dailyHours * ratePrem;
-        let nd = (days * ndHoursPerDay) * (rateHourly * 0.10); // Using standard 10% ND for generic (or 20% for user?)
-        // User payslip had ~20% ND? Let's check: 1095 / 91.8 = 11.93. 
-        // Payslip: Night Differential 927.09 for 42.45 hrs. 927.09 / 42.45 = 21.83.
-        // 21.83 is approx 20% of 109.195. Yes, it is 20%.
-        // So we use 0.20 for this tool.
+        // ND rate is approx 20% of basic hourly rate based on payslip history
         nd = (days * ndHoursPerDay) * (rateHourly * 0.20);
         
         // OT / Holiday / RestDay
