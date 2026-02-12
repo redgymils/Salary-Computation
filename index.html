@@ -3,446 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salary Computation</title>
+    <title>Pay Calculator</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
             padding: 20px;
             color: #333;
         }
         .container {
-            max-width: 600px;
+            max-width: 480px;
             margin: 0 auto;
             background: white;
             padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
-        h2 {
+        h1 {
             text-align: center;
-            color: #1a202c;
+            font-size: 1.5rem;
+            color: #2c3e50;
             margin-bottom: 5px;
         }
-        .subtitle {
+        p.subtitle {
             text-align: center;
-            color: #718096;
-            font-size: 0.9em;
+            color: #7f8c8d;
+            font-size: 0.9rem;
             margin-bottom: 25px;
         }
-        .section-header {
-            background: #2d3748;
-            color: white;
-            padding: 10px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.9em;
-            margin-top: 30px;
+        
+        /* CARD STYLE */
+        .card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
             margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-        .section-header small { font-weight: normal; opacity: 0.8; text-transform: none; }
-        
-        .input-group { margin-bottom: 15px; }
-        .flex-row { display: flex; gap: 12px; flex-wrap: wrap; }
-        .flex-col { flex: 1; min-width: 130px; }
-        
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #95a5a6;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* INPUTS */
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .input-group {
+            flex: 1;
+        }
         label {
             display: block;
-            margin-bottom: 6px;
+            font-size: 0.8rem;
             font-weight: 600;
-            font-size: 0.85em;
-            color: #4a5568;
+            margin-bottom: 5px;
+            color: #34495e;
         }
         input, select {
             width: 100%;
             padding: 12px;
-            border: 1px solid #cbd5e0;
+            border: 1px solid #dcdcdc;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 16px; /* Prevents zoom on mobile */
             box-sizing: border-box;
-            transition: border 0.2s;
+            background: #f9f9f9;
         }
-        input:focus { outline: none; border-color: #3182ce; border-width: 2px; padding: 11px; }
-        
-        /* Results Styling */
-        .results-panel {
-            background-color: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 30px;
+        input:focus {
+            background: #fff;
+            border-color: #3498db;
+            outline: none;
         }
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.95em;
-            border-bottom: 1px solid #edf2f7;
-            padding-bottom: 4px;
-        }
-        .result-row:last-child { border-bottom: none; }
-        .result-row.total {
-            font-weight: 800;
-            font-size: 1.2em;
-            color: #2d3748;
-            border-top: 2px solid #cbd5e0;
-            border-bottom: none;
-            padding-top: 12px;
-            margin-top: 15px;
-        }
-        .deduction { color: #e53e3e; }
-        .earning { color: #38a169; }
-        
-        .net-pay-box {
-            background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 25px;
-            box-shadow: 0 4px 10px rgba(49, 130, 206, 0.3);
-        }
-        .net-pay-value { font-size: 2.4em; font-weight: bold; margin-top: 5px; }
-        
-        .btn {
+
+        /* BUTTON */
+        .btn-calc {
             width: 100%;
-            padding: 16px;
-            background-color: #48bb78;
+            padding: 15px;
+            background: #27ae60;
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
+            border-radius: 10px;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 25px;
             transition: background 0.2s;
+            margin-top: 10px;
         }
-        .btn:hover { background-color: #38a169; }
+        .btn-calc:hover { background: #219150; }
+
+        /* RESULTS */
+        #result-area {
+            display: none;
+            margin-top: 25px;
+            border-top: 2px dashed #eee;
+            padding-top: 20px;
+        }
+        .net-pay {
+            background: #e8f8f5;
+            color: #27ae60;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #d4efdf;
+        }
+        .net-pay h2 { margin: 0; font-size: 2.5rem; }
+        .net-pay span { font-size: 0.9rem; opacity: 0.8; }
+
+        .details {
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .row.total { font-weight: bold; border-top: 2px solid #eee; margin-top: 10px; padding-top: 10px; }
+        .minus { color: #c0392b; }
+        .plus { color: #27ae60; }
         
-        .note { font-size: 0.75em; color: #718096; margin-top: 4px; font-style: italic; }
+        .toggle-details {
+            text-align: center;
+            margin-top: 10px;
+            color: #3498db;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>💰 Salary Estimator</h2>
-    <div class="subtitle">by WIL of Chime AAI</div>
+    <h1>Pay Calculator</h1>
+    <p class="subtitle">by WIL of CHIME AAI</p>
 
-    <div class="flex-row" style="background: #edf2f7; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        <div class="flex-col">
-            <label>Cut-Off Period</label>
-            <select id="cutoff" onchange="calculate()">
-                <option value="20th">Payout 20th (Dec 26 - Jan 10)</option>
-                <option value="5th">Payout 5th (Jan 11 - Jan 25)</option>
-            </select>
+    <div class="card">
+        <div class="card-title">1. Settings</div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Pay Period</label>
+                <select id="cutoff">
+                    <option value="20th">Payout 20th (Dec 26 - Jan 10)</option>
+                    <option value="5th">Payout 5th (Jan 11 - Jan 25)</option>
+                </select>
+            </div>
         </div>
-        <div class="flex-col">
-             <label>Loan Deductions</label>
-             <input type="number" id="loanDed" value="473.23">
-        </div>
-    </div>
-
-    <div class="section-header">
-        1. Regular Work Days
-        <small>Normal shifts</small>
-    </div>
-    <div class="flex-row">
-        <div class="flex-col" style="flex: 0.5;">
-            <label>Days Worked</label>
-            <input type="number" id="daysWorked" placeholder="10" step="1">
-            <div class="note">Don't include Holidays here</div>
-        </div>
-        <div class="flex-col">
-             <label>Shift Time In</label>
-             <input type="time" id="shiftStart" value="02:00">
-        </div>
-        <div class="flex-col">
-             <label>Shift Time Out</label>
-             <input type="time" id="shiftEnd" value="11:00">
+        <div class="input-row">
+            <div class="input-group">
+                <label>Shift Start</label>
+                <input type="time" id="shiftStart" value="02:00">
+            </div>
+            <div class="input-group">
+                <label>Shift End</label>
+                <input type="time" id="shiftEnd" value="11:00">
+            </div>
         </div>
     </div>
 
-    <div class="section-header">
-        2. Holidays
-        <small>Special & Regular</small>
-    </div>
-    
-    <div class="flex-row" style="margin-bottom: 15px;">
-        <div class="flex-col">
-            <label>Special Hol. Hours</label>
-            <input type="number" id="spHolHours" placeholder="0" step="0.5">
-            <div class="note">Rate: 130%</div>
+    <div class="card">
+        <div class="card-title">2. Hours Worked</div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Days Worked</label>
+                <input type="number" id="daysWorked" placeholder="0" step="1">
+            </div>
+            <div class="input-group">
+                <label>OT Hours</label>
+                <input type="number" id="otHours" placeholder="0" step="0.5">
+            </div>
         </div>
-        <div class="flex-col">
-            <label>Of which are ND?</label>
-            <input type="number" id="spHolND" placeholder="0" step="0.5">
-            <div class="note">Usually 4 hrs if 2am shift</div>
-        </div>
-    </div>
-    
-    <div class="flex-row">
-        <div class="flex-col">
-            <label>Regular Hol. Hours</label>
-            <input type="number" id="regHolHours" placeholder="0" step="0.5">
-            <div class="note">Rate: 200%</div>
-        </div>
-        <div class="flex-col">
-            <label>Of which are ND?</label>
-            <input type="number" id="regHolND" placeholder="0" step="0.5">
+        <div class="input-row">
+            <div class="input-group">
+                <label>Loan Deductions</label>
+                <input type="number" id="loanDed" value="473.23">
+            </div>
         </div>
     </div>
 
-    <div class="section-header">
-        3. Overtime & Rest Day
-    </div>
-    <div class="flex-row">
-        <div class="flex-col">
-            <label>Regular OT Hours</label>
-            <input type="number" id="otHours" placeholder="0" step="0.5">
+    <div class="card">
+        <div class="card-title">3. Holidays & Rest Day (Optional)</div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Special Hol. (Hrs)</label>
+                <input type="number" id="spHolHours" placeholder="0">
+            </div>
+            <div class="input-group">
+                <label>Regular Hol. (Hrs)</label>
+                <input type="number" id="regHolHours" placeholder="0">
+            </div>
         </div>
-        <div class="flex-col">
-             <label>OT Start Time</label>
-             <input type="time" id="otStartTime" value="11:00">
-        </div>
-    </div>
-    <div style="margin-top: 15px;"></div>
-    <div class="flex-row">
-        <div class="flex-col">
-            <label>Rest Day Hours</label>
-            <input type="number" id="rdHours" placeholder="0" step="1">
-        </div>
-        <div class="flex-col">
-             <label>RD Time In</label>
-             <input type="time" id="rdStartTime" value="02:00">
+        <div class="input-row">
+            <div class="input-group">
+                <label>Rest Day (Hrs)</label>
+                <input type="number" id="rdHours" placeholder="0">
+            </div>
         </div>
     </div>
 
-    <button class="btn" onclick="calculate()">COMPUTE SALARY</button>
+    <button class="btn-calc" onclick="calculate()">Compute My Pay</button>
 
-    <div id="results" style="display:none;">
-        <div class="results-panel">
+    <div id="result-area">
+        <div class="net-pay">
+            <span>ESTIMATED TAKE HOME PAY</span>
+            <h2 id="finalPay">₱ 0.00</h2>
+        </div>
+        
+        <div class="toggle-details" onclick="toggleDetails()">Show/Hide Breakdown</div>
+        
+        <div id="breakdown" class="details" style="display:none;">
+            <div class="row plus"><span>Basic Pay</span><span id="valBasic">0.00</span></div>
+            <div class="row plus"><span>Premiums & ND</span><span id="valPrem">0.00</span></div>
+            <div class="row plus"><span>Overtime / Holiday</span><span id="valOT">0.00</span></div>
+            <div class="row plus" id="rowRice"><span>Rice Allowance</span><span>1,000.00</span></div>
             
-            <div class="result-row earning">
-                <span>Basic Pay</span>
-                <span id="txtBasic">0.00</span>
-            </div>
-            <div class="result-row earning">
-                <span>Account Premium (11.93/hr)</span>
-                <span id="txtPrem">0.00</span>
-            </div>
-            <div class="result-row earning">
-                <span>Night Diff (Regular)</span>
-                <span id="txtND">0.00</span>
-            </div>
+            <div class="row total"><span>GROSS PAY</span><span id="valGross">0.00</span></div>
             
-            <div class="result-row earning" id="rowSpHol" style="display:none; color: #d69e2e;">
-                <span>Special Holiday Pay</span>
-                <span id="txtSpHol">0.00</span>
-            </div>
-            <div class="result-row earning" id="rowRegHol" style="display:none; color: #d69e2e;">
-                <span>Regular Holiday Pay</span>
-                <span id="txtRegHol">0.00</span>
-            </div>
-            <div class="result-row earning" id="rowOT" style="display:none;">
-                <span>Overtime <small id="otNDNote"></small></span>
-                <span id="txtOT">0.00</span>
-            </div>
-            <div class="result-row earning" id="rowRD" style="display:none;">
-                <span>Rest Day Pay</span>
-                <span id="txtRD">0.00</span>
-            </div>
-            <div class="result-row earning" id="rowRice" style="display:none;">
-                <span>Rice Allowance</span>
-                <span>1,000.00</span>
-            </div>
-
-            <div class="result-row total">
-                <span>GROSS INCOME</span>
-                <span id="txtGross">0.00</span>
-            </div>
-
             <br>
-            <div class="result-row deduction">
-                <span>SSS / PH / HDMF</span>
-                <span id="txtGovt">0.00</span>
-            </div>
-            <div class="result-row deduction">
-                <span>Loans</span>
-                <span id="txtLoan">0.00</span>
-            </div>
-            <div class="result-row deduction">
-                <span>Withholding Tax (Est)</span>
-                <span id="txtTax">0.00</span>
-            </div>
-
-            <div class="net-pay-box">
-                <div style="font-size: 0.9em; opacity: 0.9;">ESTIMATED NET PAY</div>
-                <div class="net-pay-value" id="txtNet">₱ 0.00</div>
-            </div>
+            <div class="row minus"><span>Govt Contributions</span><span id="valGovt">0.00</span></div>
+            <div class="row minus"><span>Loans</span><span id="valLoan">0.00</span></div>
+            <div class="row minus"><span>Tax (Estimate)</span><span id="valTax">0.00</span></div>
         </div>
     </div>
+
 </div>
 
 <script>
-    // --- RATES ---
-    const RATE_DAILY = 873.56;
+    function toggleDetails() {
+        var x = document.getElementById("breakdown");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    // --- LOGIC ---
     const RATE_HOURLY = 109.195;
     const RATE_PREM = 11.93; 
-    
-    // Multipliers
-    const MULT_ND = 0.20;       // 20% Night Diff
-    const MULT_OT = 1.25;       // 125% OT
-    const MULT_RD = 1.30;       // 130% Rest Day
-    const MULT_SP_HOL = 1.30;   // 130% Special Holiday
-    const MULT_REG_HOL = 2.00;  // 200% Regular Holiday
 
-    // Helper: Time String to Float
     function parseTime(t) {
         if(!t) return 0;
         let [h, m] = t.split(':');
         return parseInt(h) + (parseInt(m)/60);
     }
 
-    // Helper: Calculate ND Hours in Window
-    function getNDOverlap(start, duration) {
-        let ndHours = 0;
-        let end = start + duration;
-        for(let t = start; t < end; t += 0.1) {
-            let hourOfDay = t % 24;
-            // ND Window: 22:00 (10pm) to 06:00 (6am)
-            if(hourOfDay >= 22 || hourOfDay < 6) {
-                ndHours += 0.1;
-            }
-        }
-        return ndHours;
-    }
-
     function calculate() {
-        // 1. REGULAR DAYS
+        // 1. Get Inputs
         let days = parseFloat(document.getElementById('daysWorked').value) || 0;
-        let shiftStart = parseTime(document.getElementById('shiftStart').value);
-        let shiftEnd = parseTime(document.getElementById('shiftEnd').value);
+        let ot = parseFloat(document.getElementById('otHours').value) || 0;
+        let loans = parseFloat(document.getElementById('loanDed').value) || 0;
         
-        if(shiftEnd < shiftStart) shiftEnd += 24;
-        let rawDuration = shiftEnd - shiftStart;
-        let paidDuration = Math.max(0, rawDuration - 1); // Deduct 1hr Lunch
-        let ndHoursPerDay = getNDOverlap(shiftStart, rawDuration);
-        
-        // Correct ND for lunch if necessary (simple heuristic)
-        // If 2am-11am (9hrs), ND is 2am-6am (4hrs). Lunch is 6am+ (No ND). Safe.
-        
-        let totalBasicHours = days * paidDuration;
-        let totalNDHours = days * ndHoursPerDay;
-        
-        let payBasic = totalBasicHours * RATE_HOURLY;
-        let payPrem = totalBasicHours * RATE_PREM;
-        let payND = totalNDHours * RATE_HOURLY * MULT_ND;
+        let spHol = parseFloat(document.getElementById('spHolHours').value) || 0;
+        let regHol = parseFloat(document.getElementById('regHolHours').value) || 0;
+        let rd = parseFloat(document.getElementById('rdHours').value) || 0;
 
-        // 2. HOLIDAYS (Special)
-        let spHours = parseFloat(document.getElementById('spHolHours').value) || 0;
-        let spND = parseFloat(document.getElementById('spHolND').value) || 0;
+        // 2. Shift Logic (Auto ND)
+        let tIn = parseTime(document.getElementById('shiftStart').value);
+        let tOut = parseTime(document.getElementById('shiftEnd').value);
+        if(tOut < tIn) tOut += 24;
         
-        let paySpHol = spHours * RATE_HOURLY * MULT_SP_HOL;
-        // ND on Special Holiday = (Rate * 1.30) * 0.20 * ND_Hours
-        let paySpHolND = spND * (RATE_HOURLY * MULT_SP_HOL) * MULT_ND;
-        let totalSpPay = paySpHol + paySpHolND;
-
-        // 3. HOLIDAYS (Regular)
-        let regHours = parseFloat(document.getElementById('regHolHours').value) || 0;
-        let regND = parseFloat(document.getElementById('regHolND').value) || 0;
+        // ND Calculation (2am-11am = ~4 hrs ND)
+        let ndHoursPerDay = 0;
+        for(let t = tIn; t < tOut; t += 1) { // Simple loop
+             let h = t % 24;
+             if(h >= 22 || h < 6) ndHoursPerDay++;
+        }
+        // Cap ND if shift is short? No, simplified is fine.
         
-        let payRegHol = regHours * RATE_HOURLY * MULT_REG_HOL;
-        // ND on Reg Holiday = (Rate * 2.00) * 0.20 * ND_Hours
-        let payRegHolND = regND * (RATE_HOURLY * MULT_REG_HOL) * MULT_ND;
-        let totalRegPay = payRegHol + payRegHolND;
+        let dailyHours = Math.max(0, (tOut - tIn) - 1); // Minus 1 hr break
 
-        // 4. OVERTIME
-        let otHours = parseFloat(document.getElementById('otHours').value) || 0;
-        let otStart = parseTime(document.getElementById('otStartTime').value);
-        let otNDHours = getNDOverlap(otStart, otHours);
+        // 3. Earnings
+        let basic = days * dailyHours * RATE_HOURLY;
+        let prem = days * dailyHours * RATE_PREM;
+        let nd = (days * ndHoursPerDay) * (RATE_HOURLY * 0.20);
         
-        let payOT = otHours * RATE_HOURLY * MULT_OT;
-        let payOT_ND = otNDHours * (RATE_HOURLY * MULT_OT) * MULT_ND;
-        let totalOTPay = payOT + payOT_ND;
-
-        // 5. REST DAY
-        let rdHours = parseFloat(document.getElementById('rdHours').value) || 0;
-        let rdStart = parseTime(document.getElementById('rdStartTime').value);
-        let rdNDHours = getNDOverlap(rdStart, rdHours);
+        // OT / Holiday / RestDay
+        let payOT = ot * RATE_HOURLY * 1.25;
+        let paySp = spHol * RATE_HOURLY * 1.30;
+        let payReg = regHol * RATE_HOURLY * 2.00;
+        let payRD = rd * RATE_HOURLY * 1.30;
         
-        let payRD = rdHours * RATE_HOURLY * MULT_RD;
-        let payRD_ND = rdNDHours * (RATE_HOURLY * MULT_RD) * MULT_ND;
-        let totalRDPay = payRD + payRD_ND;
+        let totalExtras = payOT + paySp + payReg + payRD;
+        let totalPremND = prem + nd;
 
-        // 6. TOTALS
+        // 4. Cutoff Config
         let cutoff = document.getElementById('cutoff').value;
-        let loan = parseFloat(document.getElementById('loanDed').value) || 0;
         let rice = (cutoff === '20th') ? 1000 : 0;
         
-        let sss = 0, ph = 0, hdmf = 0;
-        if (cutoff === '20th') {
-            sss = 875; ph = 475; hdmf = 200;
-        } else {
-            sss = 700; 
-        }
-        
-        // Sum it up
-        // Note: Account Premium is also paid on Holiday hours usually? 
-        // Based on payslip, prem is paid on "Salaries and Wages". 
-        // If Holiday is a worked day, it likely accrues premium too. 
-        // We will add premium for Sp/Reg Holiday hours worked.
-        let holPrem = (spHours + regHours) * RATE_PREM;
-        
-        let gross = payBasic + payPrem + holPrem + payND + totalSpPay + totalRegPay + totalOTPay + totalRDPay + rice;
+        let sss = (cutoff === '20th') ? 875 : 700;
+        let ph = (cutoff === '20th') ? 475 : 0;
+        let hdmf = (cutoff === '20th') ? 200 : 0;
+        let govt = sss + ph + hdmf;
+
+        // 5. Tax
+        let gross = basic + totalPremND + totalExtras + rice;
         let taxable = gross - rice;
-        
         let tax = (taxable > 12000) ? taxable * 0.042 : taxable * 0.028;
 
-        // RENDER
-        document.getElementById('txtBasic').innerText = fmt(payBasic);
-        document.getElementById('txtPrem').innerText = fmt(payPrem + holPrem); // Merged premium
-        document.getElementById('txtND').innerText = fmt(payND);
+        let net = gross - (govt + loans + tax);
+
+        // 6. Display
+        document.getElementById('valBasic').innerText = fmt(basic);
+        document.getElementById('valPrem').innerText = fmt(totalPremND);
+        document.getElementById('valOT').innerText = fmt(totalExtras);
+        document.getElementById('valGross').innerText = fmt(gross);
         
-        // Holiday Rows
-        if(totalSpPay > 0) {
-            document.getElementById('rowSpHol').style.display = 'flex';
-            document.getElementById('txtSpHol').innerText = fmt(totalSpPay);
-        } else document.getElementById('rowSpHol').style.display = 'none';
-
-        if(totalRegPay > 0) {
-            document.getElementById('rowRegHol').style.display = 'flex';
-            document.getElementById('txtRegHol').innerText = fmt(totalRegPay);
-        } else document.getElementById('rowRegHol').style.display = 'none';
-
-        // OT & RD Rows
-        if(totalOTPay > 0) {
-            document.getElementById('rowOT').style.display = 'flex';
-            document.getElementById('txtOT').innerText = fmt(totalOTPay);
-            if(otNDHours > 0) document.getElementById('otNDNote').innerText = `(incl. ${otNDHours.toFixed(1)}hr ND)`;
-        } else document.getElementById('rowOT').style.display = 'none';
-
-        if(totalRDPay > 0) {
-            document.getElementById('rowRD').style.display = 'flex';
-            document.getElementById('txtRD').innerText = fmt(totalRDPay);
-        } else document.getElementById('rowRD').style.display = 'none';
-
         document.getElementById('rowRice').style.display = rice > 0 ? 'flex' : 'none';
         
-        document.getElementById('txtGross').innerText = fmt(gross);
-        document.getElementById('txtGovt').innerText = fmt(sss + ph + hdmf);
-        document.getElementById('txtLoan').innerText = fmt(loan);
-        document.getElementById('txtTax').innerText = fmt(tax);
+        document.getElementById('valGovt').innerText = fmt(govt);
+        document.getElementById('valLoan').innerText = fmt(loans);
+        document.getElementById('valTax').innerText = fmt(tax);
         
-        let net = gross - (sss + ph + hdmf + loan + tax);
-        document.getElementById('txtNet').innerText = "₱ " + fmt(net);
-        
-        document.getElementById('results').style.display = 'block';
-        window.scrollTo(0, document.body.scrollHeight);
+        document.getElementById('finalPay').innerText = "₱ " + fmt(net);
+        document.getElementById('result-area').style.display = 'block';
     }
 
     function fmt(n) { return n.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
